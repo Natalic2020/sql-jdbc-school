@@ -9,32 +9,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
-import javax.management.monitor.StringMonitor;
-
 public class FillingDB {
-
-	public void createGroups() throws SQLException {
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
-			Statement statement = connection.createStatement();
-
-			String sql = "insert into school.groups (group_name)" + "values" + "('gr-'||floor(random()*(99-1+1))+1)";
-
-			for (int i = 0; i < 10; i++) {
-				statement.executeUpdate(sql);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				connection.close();
-			}
-		}
+	
+	private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+	private static final String USERNAME = "postgres";
+	private static final String PASSWORD = "1234";
+	
+	public void fillAllDB() throws SQLException {
+			createGroupsWithShuffle();
+			createCourses();
+			createStudents();
+			fillGroupByStudents();
+			fillSchedule();
 	}
 
 	public void createGroupsWithShuffle() throws SQLException {
@@ -43,9 +32,8 @@ public class FillingDB {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			
 			String sql = "insert into school.groups (group_name)" + "values" + "('gr-'||?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -69,9 +57,8 @@ public class FillingDB {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			
 			String sql = "insert into school.courses (course_name)" + "values" + "(?)";
 
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -91,21 +78,19 @@ public class FillingDB {
 	public void createStudents() throws SQLException {
 
 		AuxiliaryValue bdValue = new AuxiliaryValue();
-		String[] firstNames = bdValue.firstName();
-		String[] lastNames = bdValue.lastName();
+		List<Map<String, String>> names = bdValue.fillNames();
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			
 			String sql = "insert into school.students (first_name, last_name)" + "values" + "(?,?)";
 
-			final Random random = new Random();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			for (int i = 0; i < 200; i++) {
-				statement.setString(1, firstNames[random.nextInt(19)]);
-				statement.setString(2, lastNames[random.nextInt(19)]);
+			
+			for (Map<String, String> name : names) {
+				statement.setString(1, name.get("firstName"));
+				statement.setString(2, name.get("lastName"));
 				statement.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -116,23 +101,35 @@ public class FillingDB {
 			}
 		}
 	}
-
+	
 	public void fillGroupByStudents() throws SQLException {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			
+			List<Integer> groups = receiveAllGroupsID();
+			List<Integer> students = receiveAllStudentsRandom();
+			
 			String sql = "update  school.students SET group_id = ?" + "where student_id = ?";
 
 			final Random random = new Random();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			for (int i = 0; i < 200; i++) {
-				statement.setInt(1, random.nextInt(9) + 1);
-				statement.setInt(2, random.nextInt(199) + 1);
-				statement.executeUpdate();
+			int j = 0;
+            for (Integer groupID : groups) {
+				int countStudent = random.nextInt(21);
+				if (countStudent == 0) {
+					continue;
+				}
+				
+				for (int i = 0; i < countStudent + 9; i++) {
+					statement.setInt(1, groupID);
+					statement.setInt(2, students.get(j));
+					j ++;
+					statement.executeUpdate();
+				}
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -142,12 +139,59 @@ public class FillingDB {
 		}
 	}
 
+	private List<Integer> receiveAllStudentsRandom() throws SQLException{
+		Connection connection = null;
+		List<Integer> students = new ArrayList<>(); 
+		try {
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+			String sqlStudent = "select st.student_id from school.students st";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlStudent);
+		
+			while(resultSet.next()) {
+				students.add(resultSet.getInt("student_id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
+		Collections.shuffle(students);
+		return students;
+	}
+	
+	private List<Integer> receiveAllGroupsID() throws SQLException{
+		Connection connection = null;
+		List<Integer> groups = new ArrayList<>(); 
+		try {
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+			String sqlGroup = "select gr.group_id from school.groups gr";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlGroup);
+		
+			while(resultSet.next()) {
+				groups.add(resultSet.getInt("group_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				connection.close();
+			}
+		}
+		return groups;
+	}
+	
 	public void fillSchedule() throws SQLException {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
 			String sql = "insert into school.schedule (course_id, student_id)" + "values" + "(?,?)";
 
@@ -155,7 +199,6 @@ public class FillingDB {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			for (int i = 0; i < 200; i++) {
 				int quantityCourses = random.nextInt(3);
-				System.out.println(quantityCourses);
 				for (int j = 0; j <= quantityCourses; j++) {
 					statement.setInt(1, random.nextInt(9) + 1);
 					statement.setInt(2, i + 1);

@@ -11,7 +11,7 @@ class QueryTest {
 	@Test
 	void searchLessStudents() throws SQLException {
 		Request query = new Request();
-		query.searchLessStudents();
+		query.searchGroups(14);
 	}
 	
 	@Test

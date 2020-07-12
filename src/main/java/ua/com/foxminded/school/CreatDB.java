@@ -10,11 +10,26 @@ import java.util.List;
 
 public class CreatDB {
 
+	private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+	private static final String USERNAME = "postgres";
+	private static final String PASSWORD = "1234";
+	
+	public void createAllDB() throws Exception {
+		deleteTable("courses");
+		deleteTable("groups");
+		deleteTable("students");
+		
+		FileParser file = new FileParser();
+		createTable(file.parseFileToString("courses.script"));
+		createTable(file.parseFileToString("groups.script"));
+		createTable(file.parseFileToString("students.script"));
+		createSchedule();
+		}
+	
 	public void deleteTable(String table) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
 			Statement statement = connection.createStatement();
 
@@ -32,20 +47,13 @@ public class CreatDB {
 				connection.close();
 			}
 		}
-	}
-	
-	public void  parseFile() {
-	
-		
-	}
-	
+	}	
 	
 	public void createTable(String sql) throws SQLException {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+		
 			Statement statement = connection.createStatement();
 
 			statement.executeUpdate(sql);
@@ -63,8 +71,7 @@ public class CreatDB {
 
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
 			Statement statement = connection.createStatement();
 
@@ -79,59 +86,6 @@ public class CreatDB {
 					+ "	course_id int  NOT NULL , " + "	student_id int  NOT NULL )";
 
 			statement.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				connection.close();
-			}
-		}
-	}
-
-	public void createTables() throws SQLException {
-
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1234");
-			System.out.println("Connenc PostgreSQL");
-
-			Statement statement = connection.createStatement();
-
-			java.sql.DatabaseMetaData dbm = connection.getMetaData();
-			ResultSet rs = dbm.getTables(null, null, "groups", null);
-			if (rs.next()) {
-				String sqlGroupDrop = "DROP TABLE school.groups";
-				statement.executeUpdate(sqlGroupDrop);
-			}
-
-			String sqlGroup = "create table school.groups" + "	(group_id serial PRIMARY KEY, "
-					+ "	group_name character(50)  NOT NULL )";
-
-			statement.executeUpdate(sqlGroup);
-
-			rs = dbm.getTables(null, null, "students", null);
-			if (rs.next()) {
-				String sqlGroupDrop = "DROP TABLE school.students";
-				statement.executeUpdate(sqlGroupDrop);
-			}
-
-			String sqlStudents = "create table school.students(" + "	student_id serial PRIMARY KEY,"
-					+ "	group_id int, " + "	first_name character(50)  NOT NULL, "
-					+ "	last_name character(50)  NOT NULL )";
-
-			statement.executeUpdate(sqlStudents);
-
-			rs = dbm.getTables(null, null, "courses", null);
-			if (rs.next()) {
-				String sqlGroupDrop = "DROP TABLE school.courses";
-				statement.executeUpdate(sqlGroupDrop);
-			}
-
-			String sqlCourses = "create table school.courses(" + "	course_id serial PRIMARY KEY, "
-					+ "	course_name character(50)  NOT NULL, " + "	course_description character(150) " + ")";
-
-			statement.executeUpdate(sqlCourses);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

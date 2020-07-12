@@ -48,10 +48,12 @@ public class Menu {
             Request query = new Request();
             switch (choice){
                 case 1:
-                	query.searchLessStudents();
+                	System.out.print("Еnter count students in group : ");
+                	int countStudents = in.nextInt();
+                	query.searchGroups(countStudents);
                     break;
                 case 2:
-                    System.out.print("Еnter course name");
+                    System.out.print("Еnter course name : ");
                     String courseName = in.nextLine();
                 	query.searchStudentsInCourse(courseName);
                     break;

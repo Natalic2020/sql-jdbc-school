@@ -1,0 +1,1 @@
+create table school.students( student_id serial PRIMARY KEY, group_id int,	first_name character(50)  NOT NULL,	last_name character(50) NOT NULL);
