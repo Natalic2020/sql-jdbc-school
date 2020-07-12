@@ -12,7 +12,7 @@ public class Request {
 	private static final String USERNAME = "postgres";
 	private static final String PASSWORD = "1234";
 	
-	public void searchGroups(int countStudents) throws SQLException {
+	public void searchGroups(int countStudents)  {
 		
 		Connection connection = null;
 		try {
@@ -38,12 +38,16 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
-  public void searchStudentsInCourse(String courseName) throws SQLException {
+  public void searchStudentsInCourse(String courseName)  {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -65,12 +69,16 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
   
-  public void addStudent(String firstName, String lastName) throws SQLException {
+  public void addStudent(String firstName, String lastName) {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -92,12 +100,16 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
   
-  public void deleteStudent(int studentID) throws SQLException {	
+  public void deleteStudent(int studentID)  {	
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -117,13 +129,17 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
   
   
-  public  void addStudentToCourse(int courseID, int studentID) throws SQLException {
+  public  void addStudentToCourse(int courseID, int studentID) {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -144,12 +160,16 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
   
-  public  void removeStudentFromCourse(int courseID, int studentID) throws SQLException {
+  public  void removeStudentFromCourse(int courseID, int studentID)  {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -170,7 +190,11 @@ public class Request {
 			e.printStackTrace();
 		}finally {
 			if(connection!=null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreatDB {
 
@@ -14,7 +12,7 @@ public class CreatDB {
 	private static final String USERNAME = "postgres";
 	private static final String PASSWORD = "1234";
 	
-	public void createAllDB() throws Exception {
+	public void createAllDB()  {
 		deleteTable("courses");
 		deleteTable("groups");
 		deleteTable("students");
@@ -26,7 +24,7 @@ public class CreatDB {
 		createSchedule();
 		}
 	
-	public void deleteTable(String table) throws SQLException {
+	public void deleteTable(String table)  {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -44,12 +42,16 @@ public class CreatDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}	
 	
-	public void createTable(String sql) throws SQLException {
+	public void createTable(String sql)  {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -62,12 +64,16 @@ public class CreatDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
-	public void createSchedule() throws SQLException {
+	public void createSchedule() {
 
 		Connection connection = null;
 		try {
@@ -91,7 +97,11 @@ public class CreatDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

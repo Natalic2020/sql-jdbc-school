@@ -23,7 +23,7 @@ public class Menu {
 	return menu;
 	}
 	
-	public void bildMenu() throws SQLException {
+	public void bildMenu()  {
 		
 		Scanner scan = new Scanner(System.in);
         int choice = 0;

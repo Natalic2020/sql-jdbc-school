@@ -11,38 +11,38 @@ import org.junit.jupiter.api.Test;
 class DBTest {
 
 	@Test
-	void createGroupsWithShuffle() throws SQLException {
+	void createGroupsWithShuffle()  {
 		FillingDB filling = new FillingDB();
 		filling.createGroupsWithShuffle();
 	}
 	
 	@Test
-	void createCourses() throws SQLException {
+	void createCourses()  {
 		FillingDB filling = new FillingDB();
 		filling.createCourses();
 	}
 	
 	@Test
-	void createStudents() throws SQLException {
+	void createStudents()  {
 		FillingDB filling = new FillingDB();
 		filling.createStudents();
 	}
 	
 	@Test
-	void fillGroupByStudents() throws SQLException {
+	void fillGroupByStudents()  {
 		FillingDB filling = new FillingDB();
 		filling.fillGroupByStudents();
 	}
 	
 	@Test
-	void fillSchedule() throws SQLException {
+	void fillSchedule()  {
 		FillingDB filling = new FillingDB();
 		filling.fillSchedule();;
 	}
 	
 	
 	@Test
-    void cleanGroupByStudent() throws SQLException {
+    void cleanGroupByStudent()  {
 		
 		Connection connection = null;
 		try {
@@ -61,7 +61,11 @@ class DBTest {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -26,7 +26,7 @@ public class FillingDB {
 			fillSchedule();
 	}
 
-	public void createGroupsWithShuffle() throws SQLException {
+	public void createGroupsWithShuffle()  {
 		AuxiliaryValue value = new AuxiliaryValue();
 		List<String> listWithValue = value.randomValue(10);
 
@@ -45,12 +45,16 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	public void createCourses() throws SQLException {
+	public void createCourses()  {
 
 		AuxiliaryValue coursesValue = new AuxiliaryValue();
 		String[] courses = coursesValue.courses();
@@ -70,12 +74,16 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	public void createStudents() throws SQLException {
+	public void createStudents()  {
 
 		AuxiliaryValue bdValue = new AuxiliaryValue();
 		List<Map<String, String>> names = bdValue.fillNames();
@@ -97,12 +105,16 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
-	public void fillGroupByStudents() throws SQLException {
+	public void fillGroupByStudents()  {
 
 		Connection connection = null;
 		try {
@@ -134,12 +146,16 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	private List<Integer> receiveAllStudentsRandom() throws SQLException{
+	private List<Integer> receiveAllStudentsRandom() {
 		Connection connection = null;
 		List<Integer> students = new ArrayList<>(); 
 		try {
@@ -157,14 +173,18 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		Collections.shuffle(students);
 		return students;
 	}
 	
-	private List<Integer> receiveAllGroupsID() throws SQLException{
+	private List<Integer> receiveAllGroupsID() {
 		Connection connection = null;
 		List<Integer> groups = new ArrayList<>(); 
 		try {
@@ -181,13 +201,17 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return groups;
 	}
 	
-	public void fillSchedule() throws SQLException {
+	public void fillSchedule()  {
 
 		Connection connection = null;
 		try {
@@ -209,7 +233,11 @@ public class FillingDB {
 			e.printStackTrace();
 		} finally {
 			if (connection != null) {
-				connection.close();
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
