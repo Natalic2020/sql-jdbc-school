@@ -18,7 +18,7 @@ public class FillingDB {
 	private static final String USERNAME = "postgres";
 	private static final String PASSWORD = "1234";
 	
-	public void fillAllDB() throws SQLException {
+	public void fillAllDB() {
 			createGroupsWithShuffle();
 			createCourses();
 			createStudents();

@@ -2,9 +2,10 @@ package ua.com.foxminded.school;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class CreatDB {
 
@@ -13,14 +14,12 @@ public class CreatDB {
 	private static final String PASSWORD = "1234";
 	
 	public void createAllDB()  {
-		deleteTable("courses");
-		deleteTable("groups");
-		deleteTable("students");
+		Stream.of("courses", "groups", "students").forEach(nameTable -> deleteTable(nameTable));
 		
 		FileParser file = new FileParser();
-		createTable(file.parseFileToString("courses.script"));
-		createTable(file.parseFileToString("groups.script"));
-		createTable(file.parseFileToString("students.script"));
+		List<String> sqlQueryList = file.readFileToLines("sql.script");	
+		sqlQueryList.stream().forEach(sqlQuery -> createTable(sqlQuery));
+		
 		createSchedule();
 		}
 	
@@ -30,14 +29,10 @@ public class CreatDB {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
 			Statement statement = connection.createStatement();
-
-			java.sql.DatabaseMetaData dbm = connection.getMetaData();
-			ResultSet rs = dbm.getTables(null, null, table, null);
-			if (rs.next()) {
-				String sqlScheduleDrop = "DROP TABLE school." + table;
-				statement.executeUpdate(sqlScheduleDrop);
-			}
-
+			String sqlSDrop = "DROP TABLE IF EXISTS school." + table;
+			
+			statement.executeUpdate(sqlSDrop);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -75,34 +70,10 @@ public class CreatDB {
 	
 	public void createSchedule() {
 
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-			Statement statement = connection.createStatement();
-
-			java.sql.DatabaseMetaData dbm = connection.getMetaData();
-			ResultSet rs = dbm.getTables(null, null, "schedule", null);
-			if (rs.next()) {
-				String sqlScheduleDrop = "DROP TABLE school.schedule";
-				statement.executeUpdate(sqlScheduleDrop);
-			}
-
-			String sql = "create table school.schedule" + "	(schedule_id serial PRIMARY KEY, "
-					+ "	course_id int  NOT NULL , " + "	student_id int  NOT NULL )";
-
-			statement.executeUpdate(sql);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		deleteTable("schedule");
+		
+		String sqlSchedule = "create table school.schedule" + "	(schedule_id serial PRIMARY KEY, "
+				+ "	course_id int  NOT NULL , " + "	student_id int  NOT NULL )";
+		createTable(sqlSchedule);
 	}
 }

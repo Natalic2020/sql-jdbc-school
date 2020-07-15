@@ -5,21 +5,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FileParser {
 
-	public String parseFileToString(String fileName) {
+//	 protected List<RacerData> parseRacersData(String fileName) {
+//	        List<String> sqlQueryList = readFileToLines(fileName);
+////	        List<RacerData> racersData = parseRacersRawData(rawRacersData);
+//	        return racersData;
+//	    }
+	
+	public  List<String> readFileToLines(String fileName) {
 		String file = receivePath(fileName);
-		String sql = "";
+		List<String> sqlQueryList = new ArrayList<>();
 		try (Stream<String> fileInStream = Files.lines(Paths.get(file))) {
-			sql = fileInStream.collect(Collectors.joining(""));
+			sqlQueryList = fileInStream.collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return sql;
+		return sqlQueryList;
 	}
 
 	private void checkFile(File file) {

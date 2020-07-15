@@ -1,7 +1,6 @@
 package ua.com.foxminded.school;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,14 +60,16 @@ public class AuxiliaryValue {
 		while (namesNoDouble.size()<200) {		
 				namesNoDouble.add(firstNames()[random.nextInt(19)] + TEXT_SEPARATOR + lastNames()[random.nextInt(19)]);
 		}
-		List<Map<String, String>>  nameArray = namesNoDouble.stream().map(text -> {
-			Map<String, String> name = new HashMap<>(); 
-			name.put("firstName", reсeiveFirstName(text));
-			name.put("lastName", reсeiveLastName(text));
-		    return name;
-		})
+		List<Map<String, String>>  nameArray = namesNoDouble.stream().map(this::addName)
 				.collect(Collectors.toList());
 		return nameArray;
+	}
+	
+	private Map<String, String> addName (String text) {
+		Map<String, String> name = new HashMap<>(); 
+		name.put("firstName", reсeiveFirstName(text));
+		name.put("lastName", reсeiveLastName(text));
+	    return name;	
 	}
 	
 	private String reсeiveFirstName(String text) {
@@ -85,6 +86,5 @@ public class AuxiliaryValue {
 			return null;
 		}
 		return text.substring(indexSeparator + 1);
-	}
-	
+	}	
 }

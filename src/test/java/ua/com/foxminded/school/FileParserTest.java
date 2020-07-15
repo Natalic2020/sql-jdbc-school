@@ -2,6 +2,8 @@ package ua.com.foxminded.school;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 class FileParserTest {
@@ -29,7 +31,7 @@ class FileParserTest {
         final String fileName = "groups.script";
         String expected = "create table school.groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL);";
 
-        String actual = fileParser.parseFileToString(fileName);
+        List<String> actual = fileParser.readFileToLines(fileName);
 
         assertEquals(expected, actual.toString());
     }
@@ -38,7 +40,7 @@ class FileParserTest {
     public void readFileToLines_shouldThrowIllegalArgumentException_whenInputFileIsNotValid() {
         final String fileName = "not_file.txt";
         assertThrows(IllegalArgumentException.class, () ->
-        fileParser.parseFileToString(fileName)
+        fileParser.readFileToLines(fileName)
             );
     }
 }
