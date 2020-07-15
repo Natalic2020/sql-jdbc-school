@@ -67,12 +67,12 @@ public class AuxiliaryValue {
 	
 	private Map<String, String> addName (String text) {
 		Map<String, String> name = new HashMap<>(); 
-		name.put("firstName", reсeiveFirstName(text));
-		name.put("lastName", reсeiveLastName(text));
+		name.put("firstName", receiveFirstName(text));
+		name.put("lastName", receiveLastName(text));
 	    return name;	
 	}
 	
-	private String reсeiveFirstName(String text) {
+	private String receiveFirstName(String text) {
 		int indexSeparator = text.indexOf(TEXT_SEPARATOR);
 		if (indexSeparator==-1) {
 			return null;
@@ -80,7 +80,7 @@ public class AuxiliaryValue {
 		return text.substring(0, indexSeparator);
 	}
 	
-	private String reсeiveLastName(String text) {
+	private String receiveLastName(String text) {
 		int indexSeparator = text.indexOf(TEXT_SEPARATOR);
 		if (indexSeparator==-1) {
 			return null;

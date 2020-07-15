@@ -29,7 +29,7 @@ class FileParserTest {
     @Test
     public void parseRacersData_shouldReadNameAndCar_whenInputCorrectFile() {
         final String fileName = "groups.script";
-        String expected = "create table school.groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL);";
+        String expected = "[create table school.groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL);]";
 
         List<String> actual = fileParser.readFileToLines(fileName);
 

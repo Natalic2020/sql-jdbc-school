@@ -32,16 +32,21 @@ public class Menu {
         int choice = 0;
         
         Map<Integer, Object> menuMap =  createMapMenu();
-        while (choice!=7){
+        while (true){
         	Scanner scanChoice = new Scanner(System.in);
         	for (Entry<Integer, String> menuItem : menu.entrySet()) {
 				System.out.println(menuItem.getKey() + " " + menuItem.getValue());
 			} 
         	
+        	if (scanChoice.hasNext()) {
             choice = scanChoice.nextInt();
-            
+        	}
+            if (choice > 6 || choice < 0) {
+            	break;
+            }
             System.out.println(String.format("%s%n%n%s", "******" , menu.get(choice)));
 
+            
             UserOption userOption =  (UserOption) menuMap.get(choice);
             userOption.apply();
             
