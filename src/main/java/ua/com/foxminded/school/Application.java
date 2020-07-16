@@ -7,7 +7,12 @@ public class Application {
 		db.createAllDB();
 		
 		FillingDB fillDB = new FillingDB();
-		fillDB.fillAllDB();
+		try {
+			fillDB.fillAllDB();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) throws Exception {	

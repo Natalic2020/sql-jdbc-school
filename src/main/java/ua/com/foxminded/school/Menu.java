@@ -1,6 +1,5 @@
 package ua.com.foxminded.school;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,7 +16,7 @@ import ua.com.foxminded.userOption.UserOption;
 public class Menu {
 
 	Map<Integer, String> menu = new HashMap<>();
-	
+
 	public Menu() {
 		menu.put(1, "Find all groups with less or equals student count");
 		menu.put(2, "Find all students related to course with given name");
@@ -28,37 +27,39 @@ public class Menu {
 		menu.put(7, "Exit");
 	}
 
-	public void bildMenu()  {
-        int choice = 0;
-        
-        Map<Integer, Object> menuMap =  createMapMenu();
-        while (true){
-        	Scanner scanChoice = new Scanner(System.in);
-        	for (Entry<Integer, String> menuItem : menu.entrySet()) {
-				System.out.println(menuItem.getKey() + " " + menuItem.getValue());
-			} 
-        	
-        	if (scanChoice.hasNext()) {
-            choice = scanChoice.nextInt();
-        	}
-            if (choice > 6 || choice < 0) {
-            	break;
-            }
-            System.out.println(String.format("%s%n%n%s", "******" , menu.get(choice)));
+	public void bildMenu() {
+		int choice = 0;
 
-            
-            UserOption userOption =  (UserOption) menuMap.get(choice);
-            userOption.apply();
-            
-            System.out.println(String.format("%n%n%s", "******" )); 
-            scanChoice.close();
-        }
-        
-        System.out.println("Shao");	
+		Map<Integer, Object> menuMap = createMapMenu();
+
+		try (Scanner scanChoice = new Scanner(System.in)) {
+			while (choice != 7) {
+				outputMenu();
+				choice = scanChoice.nextInt();
+				runChoice(choice, menuMap);
+			}
+		}
+		System.out.println("Shao");
 	}
-	
-	public Map<Integer, Object>  createMapMenu(){
-		Map<Integer, Object> menuMap =  new HashMap<>();
+
+	private void runChoice(int choice, Map<Integer, Object> menuMap) {
+		if (choice < 1 || choice > 6) {
+			return;
+		}
+		System.out.println(String.format("%s%n%n%s", "******", menu.get(choice)));
+		UserOption userOption = (UserOption) menuMap.get(choice);
+		userOption.apply();
+		System.out.println(String.format("%n%n%s", "******"));		
+	}
+
+	public void outputMenu() {
+		for (Entry<Integer, String> menuItem : menu.entrySet()) {
+			System.out.println(menuItem.getKey() + " " + menuItem.getValue());
+		}
+	}
+
+	public Map<Integer, Object> createMapMenu() {
+		Map<Integer, Object> menuMap = new HashMap<>();
 		SearchGroups searchGroups = new SearchGroups();
 		menuMap.put(1, searchGroups);
 		SearchStudentsInCourse searchStudentsInCourse = new SearchStudentsInCourse();

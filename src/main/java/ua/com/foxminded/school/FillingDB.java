@@ -3,11 +3,7 @@ package ua.com.foxminded.school;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -18,7 +14,7 @@ public class FillingDB {
 	private static final String USERNAME = "postgres";
 	private static final String PASSWORD = "1234";
 	
-	public void fillAllDB() {
+	public void fillAllDB() throws Exception {
 			createGroupsWithShuffle();
 			createCourses();
 			createStudents();
@@ -96,11 +92,18 @@ public class FillingDB {
 
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
-			for (Map<String, String> name : names) {
-				statement.setString(1, name.get("firstName"));
-				statement.setString(2, name.get("lastName"));
-				statement.executeUpdate();
-			}
+			names.forEach(data -> {
+				try {
+					statement.setString(1, data.get("firstName"));
+					statement.setString(2, data.get("lastName"));
+					statement.executeUpdate();
+				
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			});
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -114,34 +117,28 @@ public class FillingDB {
 		}
 	}
 	
-	public void fillGroupByStudents()  {
+	public void fillGroupByStudents()   {
 
 		Connection connection = null;
+		AuxiliaryValue bdValue = new AuxiliaryValue();
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			
-			List<Integer> groups = receiveAllGroupsID();
-			List<Integer> students = receiveAllStudentsRandom();
-			
+						
 			String sql = "update  school.students SET group_id = ?" + "where student_id = ?";
 
-			final Random random = new Random();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			int j = 0;
-            for (Integer groupID : groups) {
-				int countStudent = random.nextInt(21);
-				if (countStudent == 0) {
-					continue;
-				}
-				
-				for (int i = 0; i < countStudent + 9; i++) {
-					statement.setInt(1, groupID);
-					statement.setInt(2, students.get(j));
-					j ++;
+			Map<Integer, Integer>  groupOfStudents =  bdValue.recieveGroupOfStudents();
+			
+			groupOfStudents.forEach((k,v) -> {
+				try {
+					statement.setInt(1, v);
+					statement.setInt(2, k);
 					statement.executeUpdate();
-				}
-			}
-			
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}		
+			});
+					
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -153,82 +150,30 @@ public class FillingDB {
 				}
 			}
 		}
-	}
-
-	private List<Integer> receiveAllStudentsRandom() {
-		Connection connection = null;
-		List<Integer> students = new ArrayList<>(); 
-		try {
-			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-			String sqlStudent = "select st.student_id from school.students st";
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sqlStudent);
-		
-			while(resultSet.next()) {
-				students.add(resultSet.getInt("student_id"));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		Collections.shuffle(students);
-		return students;
-	}
-	
-	private List<Integer> receiveAllGroupsID() {
-		Connection connection = null;
-		List<Integer> groups = new ArrayList<>(); 
-		try {
-			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-			String sqlGroup = "select gr.group_id from school.groups gr";
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sqlGroup);
-		
-			while(resultSet.next()) {
-				groups.add(resultSet.getInt("group_id"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return groups;
 	}
 	
 	public void fillSchedule()  {
 
 		Connection connection = null;
+		AuxiliaryValue bdValue = new AuxiliaryValue();
 		try {
 			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
 			String sql = "insert into school.schedule (course_id, student_id)" + "values" + "(?,?)";
 
-			final Random random = new Random();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			for (int i = 0; i < 200; i++) {
-				int quantityCourses = random.nextInt(3);
-				for (int j = 0; j <= quantityCourses; j++) {
-					statement.setInt(1, random.nextInt(9) + 1);
-					statement.setInt(2, i + 1);
+			
+			List<Integer[]> courcesOfStudents = bdValue.recieveCourcesOfStudents();
+			
+			courcesOfStudents.forEach(data -> {
+				try {
+					statement.setInt(1, data[1]);
+					statement.setInt(2, data[0]);
 					statement.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			}
+			});				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

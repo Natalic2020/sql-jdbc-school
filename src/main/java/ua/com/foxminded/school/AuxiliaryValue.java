@@ -1,5 +1,6 @@
 package ua.com.foxminded.school;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -87,4 +88,50 @@ public class AuxiliaryValue {
 		}
 		return text.substring(indexSeparator + 1);
 	}	
+	
+	public Map<Integer, Integer> recieveGroupOfStudents() {
+
+		Map<Integer, Integer> groupOfStudents = new HashMap<>();
+
+		Request request = new Request();
+		
+		List<Integer> groups = request.receiveAllGroupsIDRandom();
+		List<Integer> students = request.receiveAllStudentsRandom();
+
+		final Random random = new Random();
+		int j = 0;
+		for (Integer groupID : groups) {
+			int countStudent = random.nextInt(21);
+			for (int i = 0; i < countStudent + 9; i++) {
+				groupOfStudents.put(students.get(j), groupID);
+				j++;
+				if (j >= students.size()) {
+					return groupOfStudents;
+				}
+			}
+		}
+		return groupOfStudents;
+	}
+	
+	public List<Integer[]> recieveCourcesOfStudents() {
+	List<Integer[]> courcesOfStudents = new ArrayList<>();
+	Request request = new Request();
+	List<Integer> students = request.receiveAllStudents();
+	List<Integer> courses = request.receiveAllCourcesID();
+	
+	students.forEach(data -> {
+		receiveCourses( courcesOfStudents, courses, data);
+	});
+	return courcesOfStudents;
+	}
+	
+	public void receiveCourses(List<Integer[]> courcesOfStudents, List<Integer> courses, Integer studentID) {
+		Collections.shuffle(courses);
+		final Random random = new Random();
+		int quantityCourses = random.nextInt(3);
+		for (int i = 0; i <= quantityCourses; i++) {
+			Integer[] element = {studentID, courses.get(i)};
+			courcesOfStudents.add(element);
+		}
+	}
 }

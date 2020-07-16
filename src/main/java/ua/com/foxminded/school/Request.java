@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Request {
 
@@ -198,4 +202,98 @@ public class Request {
 			}
 		}
 	}
+  
+  public List<Integer> receiveAllStudents() {
+		Connection connection = null;
+		List<Integer> students = new ArrayList<>();
+		try {
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+			String sqlStudent = "select st.student_id from school.students st";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlStudent);
+
+			while (resultSet.next()) {
+				students.add(resultSet.getInt("student_id"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}	
+		return students;
+	}
+  
+  public List<Integer> receiveAllStudentsRandom() {
+	  List<Integer> students = receiveAllStudents();
+	  Collections.shuffle(students);
+	  return students;
+  }
+
+	public List<Integer> receiveAllGroupsID() {
+		Connection connection = null;
+		List<Integer> groups = new ArrayList<>();
+		try {
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+			String sqlGroup = "select gr.group_id from school.groups gr";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlGroup);
+
+			while (resultSet.next()) {
+				groups.add(resultSet.getInt("group_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return groups;
+	}
+	
+	public List<Integer> receiveAllGroupsIDRandom() {
+		List<Integer> groups = receiveAllGroupsID();
+		Collections.shuffle(groups);
+		return groups;
+	}
+	
+	public List<Integer> receiveAllCourcesID() {
+		Connection connection = null;
+		List<Integer> courses = new ArrayList<>();
+		try {
+			connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+			String sqlCourse = "select cs.course_id from school.courses cs";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlCourse);
+
+			while (resultSet.next()) {
+				courses.add(resultSet.getInt("course_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return courses;
+     }
 }

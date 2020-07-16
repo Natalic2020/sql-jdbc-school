@@ -7,13 +7,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>school</name>
 	<description>jdbc school</description>
-	
+
 	<properties>
 		<junit-jupiter.version>5.6.0</junit-jupiter.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+   
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

@@ -8,12 +8,14 @@ public class SearchStudentsInCourse  implements UserOption{
 
 	@Override
 	public void apply() {
-		Scanner inputValue = new Scanner(System.in);
-        Request query = new Request();
+//		try (Scanner inputValue = new Scanner(System.in)) {
+			Scanner inputValue = new Scanner(System.in);
+			Request query = new Request();
 		
         System.out.print("Enter course name : ");
         String courseName = inputValue.nextLine();
     	query.searchStudentsInCourse(courseName);
-    	inputValue.close();
+		
+//		}
 	}
 }
