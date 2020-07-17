@@ -1,4 +1,4 @@
-package ua.com.foxminded.school;
+package ua.com.foxminded.menu;
 
 import java.util.HashMap;
 import java.util.Map;

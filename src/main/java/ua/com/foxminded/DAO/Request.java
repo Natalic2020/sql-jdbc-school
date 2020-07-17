@@ -1,4 +1,4 @@
-package ua.com.foxminded.school;
+package ua.com.foxminded.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -231,12 +231,6 @@ public class Request {
 		return students;
 	}
   
-  public List<Integer> receiveAllStudentsRandom() {
-	  List<Integer> students = receiveAllStudents();
-	  Collections.shuffle(students);
-	  return students;
-  }
-
 	public List<Integer> receiveAllGroupsID() {
 		Connection connection = null;
 		List<Integer> groups = new ArrayList<>();
@@ -261,12 +255,6 @@ public class Request {
 				}
 			}
 		}
-		return groups;
-	}
-	
-	public List<Integer> receiveAllGroupsIDRandom() {
-		List<Integer> groups = receiveAllGroupsID();
-		Collections.shuffle(groups);
 		return groups;
 	}
 	

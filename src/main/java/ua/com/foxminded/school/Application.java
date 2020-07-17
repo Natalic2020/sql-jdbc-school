@@ -1,5 +1,9 @@
 package ua.com.foxminded.school;
 
+import ua.com.foxminded.DAO.CreatDB;
+import ua.com.foxminded.DAO.FillingDB;
+import ua.com.foxminded.menu.Menu;
+
 public class Application {
 
 	static {

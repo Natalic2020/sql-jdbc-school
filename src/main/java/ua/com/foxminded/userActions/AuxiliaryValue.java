@@ -1,6 +1,5 @@
-package ua.com.foxminded.school;
+package ua.com.foxminded.userActions;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +9,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import ua.com.foxminded.DAO.Request;
 
 public class AuxiliaryValue {
 
@@ -61,7 +62,8 @@ public class AuxiliaryValue {
 		while (namesNoDouble.size()<200) {		
 				namesNoDouble.add(firstNames()[random.nextInt(19)] + TEXT_SEPARATOR + lastNames()[random.nextInt(19)]);
 		}
-		List<Map<String, String>>  nameArray = namesNoDouble.stream().map(this::addName)
+		List<Map<String, String>>  nameArray = namesNoDouble.stream()
+				.map(this::addName)
 				.collect(Collectors.toList());
 		return nameArray;
 	}
@@ -89,14 +91,26 @@ public class AuxiliaryValue {
 		return text.substring(indexSeparator + 1);
 	}	
 	
+	public List<Integer> receiveAllGroupsIDRandom() {
+		Request request = new Request();
+		List<Integer> groups = request.receiveAllGroupsID();
+		Collections.shuffle(groups);
+		return groups;
+	}
+	
+	public List<Integer> receiveAllStudentsRandom() {
+		Request request = new Request();
+		  List<Integer> students = request.receiveAllStudents();
+		  Collections.shuffle(students);
+		  return students;
+	  }
+	
 	public Map<Integer, Integer> recieveGroupOfStudents() {
 
 		Map<Integer, Integer> groupOfStudents = new HashMap<>();
-
-		Request request = new Request();
 		
-		List<Integer> groups = request.receiveAllGroupsIDRandom();
-		List<Integer> students = request.receiveAllStudentsRandom();
+		List<Integer> groups = receiveAllGroupsIDRandom();
+		List<Integer> students = receiveAllStudentsRandom();
 
 		final Random random = new Random();
 		int j = 0;
@@ -119,9 +133,9 @@ public class AuxiliaryValue {
 	List<Integer> students = request.receiveAllStudents();
 	List<Integer> courses = request.receiveAllCourcesID();
 	
-	students.forEach(data -> {
-		receiveCourses( courcesOfStudents, courses, data);
-	});
+	students.forEach(data -> 
+		receiveCourses( courcesOfStudents, courses, data)
+	);
 	return courcesOfStudents;
 	}
 	

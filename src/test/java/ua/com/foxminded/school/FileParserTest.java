@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import ua.com.foxminded.Util.FileParser;
+
 class FileParserTest {
 	
     FileParser fileParser = new FileParser();

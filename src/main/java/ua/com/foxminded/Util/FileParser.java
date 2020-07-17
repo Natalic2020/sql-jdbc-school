@@ -1,4 +1,4 @@
-package ua.com.foxminded.school;
+package ua.com.foxminded.Util;
 
 import java.io.File;
 import java.io.IOException;

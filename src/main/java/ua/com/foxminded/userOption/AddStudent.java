@@ -2,7 +2,7 @@ package ua.com.foxminded.userOption;
 
 import java.util.Scanner;
 
-import ua.com.foxminded.school.Request;
+import ua.com.foxminded.DAO.Request;
 
 public class AddStudent  implements UserOption{
 
