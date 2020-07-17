@@ -1,1 +1,0 @@
-create table school.courses(	course_id serial PRIMARY KEY,	course_name character(50)  NOT NULL,	course_description character(150));
