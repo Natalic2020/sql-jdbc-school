@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import ua.com.foxminded.dao.SchoolDao;
 import ua.com.foxminded.useractions.AddStudent;
 import ua.com.foxminded.useractions.AddStudentToCourse;
 import ua.com.foxminded.useractions.DeleteStudent;
@@ -54,11 +55,11 @@ public class Menu {
     }
 
     private void createMapMenu() {
-        menuMap.put(1, new SearchGroups());
-        menuMap.put(2, new SearchStudentsInCourse());
-        menuMap.put(3, new AddStudent());
-        menuMap.put(4, new DeleteStudent());
-        menuMap.put(5, new AddStudentToCourse());
-        menuMap.put(6, new RemoveStudentFromCourse());
+        menuMap.put(1, new SearchGroups(new SchoolDao()));
+        menuMap.put(2, new SearchStudentsInCourse(new SchoolDao()));
+        menuMap.put(3, new AddStudent(new SchoolDao()));
+        menuMap.put(4, new DeleteStudent(new SchoolDao()));
+        menuMap.put(5, new AddStudentToCourse(new SchoolDao()));
+        menuMap.put(6, new RemoveStudentFromCourse(new SchoolDao()));
     }
 }

@@ -1,8 +1,12 @@
 package ua.com.foxminded;
 
+import java.util.List;
+
 import ua.com.foxminded.dao.CreatDB;
 import ua.com.foxminded.dao.FillingDB;
+import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.menu.Menu;
+import ua.com.foxminded.util.AuxiliaryValue;
 
 public class Application {
 
@@ -19,6 +23,8 @@ public class Application {
     }
 
     public static void main(String[] args) throws Exception {
+//        AuxiliaryValue value = new AuxiliaryValue();
+//        List<Group> groups = value.receiveGroups(10);
         Menu menu = new Menu();
         menu.bildMenu();
     }

@@ -1,3 +1,3 @@
 create table school.groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL);
-create table school.students( student_id serial PRIMARY KEY, group_id int,	first_name character(50)  NOT NULL,	last_name character(50) NOT NULL);
-create table school.courses(	course_id serial PRIMARY KEY,	course_name character(50)  NOT NULL,	course_description character(150));
+create table school.students (student_id serial PRIMARY KEY, group_id int,	first_name character(50)  NOT NULL,	last_name character(50) NOT NULL);
+create table school.courses (course_id serial PRIMARY KEY,	course_name character(50)  NOT NULL,	course_description character(150));

@@ -2,14 +2,18 @@ package ua.com.foxminded.useractions;
 
 import java.util.Scanner;
 
-import ua.com.foxminded.dao.Request;
+import ua.com.foxminded.dao.SchoolDao;
 
 public class AddStudentToCourse implements UserOption {
 
+    SchoolDao query;
+
+    public AddStudentToCourse(SchoolDao query) {
+        this.query = query;
+    }
+
     @Override
     public void apply(Scanner scanInput) {
-        Request query = new Request();
-
         System.out.print("Enter id course : ");
         int add_course_id = scanInput.nextInt();
         System.out.print("Enter id student : ");

@@ -16,11 +16,11 @@ public class CreatDB {
     private static final String PASSWORD = "1234";
 
     public void createAllDB() {
-        Stream.of("courses", "groups", "students").forEach(nameTable -> deleteTable(nameTable));
+        Stream.of("courses", "groups", "students").forEach(this::deleteTable);
 
         FileParser file = new FileParser();
         List<String> sqlQueryList = file.readFileToLines("sql.script");
-        sqlQueryList.stream().forEach(sqlQuery -> createTable(sqlQuery));
+        sqlQueryList.forEach(this::createTable);
 
         createSchedule();
     }
