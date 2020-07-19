@@ -128,7 +128,7 @@ public class FillingDB {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.schedule (schedule_id, student_id, course_id )" + "values" + "(?,?,?)";
+            String sql = "insert into school.schedule ( student_id, course_id )" + "values" + "(?,?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -136,7 +136,6 @@ public class FillingDB {
                 try {
                     statement.setInt(1, data[0]);
                     statement.setInt(2, data[1]);
-                    statement.setInt(3, data[2]);
                     statement.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();

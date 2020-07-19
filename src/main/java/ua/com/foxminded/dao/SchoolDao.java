@@ -79,22 +79,23 @@ public class SchoolDao {
         }
     }
 
-    public void addStudent(String firstName, String lastName) {
+    public void addStudent(int studentId, String firstName, String lastName) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.students (first_name, last_name)" + "values" + "(?,?)";
+            String sql = "insert into school.students (student_id, first_name, last_name)" + "values" + "(?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
+            statement.setInt(1, studentId);
+            statement.setString(2, firstName);
+            statement.setString(3, lastName);
             int result = statement.executeUpdate();
             if (result == 1) {
                 System.out.println("added student " + firstName + " " + lastName);
+          
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -143,7 +144,7 @@ public class SchoolDao {
 
             String sql = "insert into school.schedule (course_id, student_id)" + "values" + "(?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-
+          
             statement.setInt(1, courseID);
             statement.setInt(2, studentID);
             int result = statement.executeUpdate();

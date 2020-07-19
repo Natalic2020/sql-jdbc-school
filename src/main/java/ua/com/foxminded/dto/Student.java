@@ -2,13 +2,15 @@ package ua.com.foxminded.dto;
 
 public class Student {
 
+    static int count; 
     int studentId;
     int groupId;
     String firstName;
     String lastName;
     
-    public Student(int studentId, String firstName, String lastName) {
-        this.studentId = studentId;
+    public Student(String firstName, String lastName) {
+        this.count ++;
+        this.studentId = count;
         this.firstName = firstName;
         this.lastName = lastName;
     }

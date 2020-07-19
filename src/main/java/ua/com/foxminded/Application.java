@@ -25,6 +25,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 //        AuxiliaryValue value = new AuxiliaryValue();
 //        List<Group> groups = value.receiveGroups(10);
+
         Menu menu = new Menu();
         menu.bildMenu();
     }

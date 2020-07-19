@@ -15,12 +15,16 @@ import ua.com.foxminded.dto.Student;
 
 public class AuxiliaryValue {
 
-    int groupId = 1;
-    int courseId = 1;
-    int studentId = 1;
-    int scheduleId = 1;
+//    int groupId = 1;
+//    int courseId = 1;
+//    int studentId = 1;
+//    int scheduleId = 1;
     private static final String TEXT_SEPARATOR = "_";
 
+    public Group createGroup(String text) {
+        return new Group( "gr-" +  text) ;
+    }
+    
     public String[] subjects() {
         String[] subjects = { "maths", "history", "geography", "literature", "sport", "music", "biology", "art",
                 "Informatics", "religion" };
@@ -40,11 +44,7 @@ public class AuxiliaryValue {
         List<String> listWithValue = randomValue(countGroup); 
         List<Group> groups = listWithValue.stream().map(this::createGroup).collect(Collectors.toList());
         return groups;
-    }
-    
-    public Group createGroup(String text) {
-        return new Group(groupId ++, "gr-" +  text) ;
-    }
+    } 
     
     public List<Course>  receiveCourses() {
         String[] subjects = subjects();
@@ -53,7 +53,7 @@ public class AuxiliaryValue {
     }
     
     public Course createCourse(String text) {
-        return new Course(courseId ++, text) ;
+        return new Course(text) ;
     }
     
     public String[] firstNames() {
@@ -99,7 +99,7 @@ public class AuxiliaryValue {
     }
     
     public Student createStudents(String text) {
-        return new Student(studentId ++, receiveFirstName(text), receiveLastName(text)) ;
+        return new Student(receiveFirstName(text), receiveLastName(text)) ;
     }
 
     private String receiveFirstName(String text) {
@@ -130,7 +130,7 @@ public class AuxiliaryValue {
         final Random random = new Random();
         int quantityCourses = random.nextInt(3);
         for (int i = 0; i <= quantityCourses; i++) {
-            Integer[] element = { scheduleId ++ , student.getStudentId(), courses.get(i).getCourseId() };
+            Integer[] element = { student.getStudentId(), courses.get(i).getCourseId() };
             schedule.add(element);
         }
     }

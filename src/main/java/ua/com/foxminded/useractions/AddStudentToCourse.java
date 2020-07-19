@@ -3,6 +3,7 @@ package ua.com.foxminded.useractions;
 import java.util.Scanner;
 
 import ua.com.foxminded.dao.SchoolDao;
+import ua.com.foxminded.dto.Student;
 
 public class AddStudentToCourse implements UserOption {
 
@@ -18,6 +19,7 @@ public class AddStudentToCourse implements UserOption {
         int add_course_id = scanInput.nextInt();
         System.out.print("Enter id student : ");
         int add_student_id = scanInput.nextInt();
+        
         query.addStudentToCourse(add_course_id, add_student_id);
     }
 }

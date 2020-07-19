@@ -2,12 +2,14 @@ package ua.com.foxminded.dto;
 
 public class Course {
 
+    static int count;
     int courseId;
     String courseName;
     String courseDescription;
   
-    public Course(int courseId, String courseName) {
-        this.courseId = courseId;
+    public Course( String courseName) {
+        this.count ++;
+        this.courseId = count;
         this.courseName = courseName;
     }
     

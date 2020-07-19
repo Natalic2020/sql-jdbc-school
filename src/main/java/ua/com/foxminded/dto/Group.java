@@ -2,11 +2,13 @@ package ua.com.foxminded.dto;
 
 public class Group {
 
+    static int count;
     int groupId;
     String groupName;
    
-    public Group(int groupId, String groupName) {
-        this.groupId = groupId;
+    public Group(String groupName) {
+        this.count ++;
+        this.groupId = count;
         this.groupName = groupName;
     }
 
