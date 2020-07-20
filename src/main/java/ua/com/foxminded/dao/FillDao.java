@@ -11,13 +11,13 @@ import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;
 import ua.com.foxminded.util.AuxiliaryValue;
 
-public class FillingDB {
+public class FillDao {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "1234";
 
-    public void fillAllDB() throws Exception {
+    public void fillAllDB()  {
         AuxiliaryValue value = new AuxiliaryValue();
         
         List<Group> groups = value.receiveGroups(10);

@@ -32,7 +32,7 @@ public class Menu {
         createMapMenu();
     }
 
-    public void bildMenu() {
+    public void runMenu() {
         int choice = 0;
 
         try (Scanner scanInput = new Scanner(System.in)) {
