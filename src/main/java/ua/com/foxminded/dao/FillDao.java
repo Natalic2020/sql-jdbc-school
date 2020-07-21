@@ -13,7 +13,7 @@ import ua.com.foxminded.util.AuxiliaryValue;
 
 public class FillDao {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/school1";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "1234";
 
@@ -128,7 +128,7 @@ public class FillDao {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.schedule ( student_id, course_id )" + "values" + "(?,?)";
+            String sql = "insert into school.students_courses ( student_id, course_id )" + "values" + "(?,?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 

@@ -7,12 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SchoolDao {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/school1";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "1234";
 
@@ -54,7 +53,7 @@ public class SchoolDao {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("search students in course  " + courseName);
 
-            String sql = "select st.first_name, st.last_name from school.students st, school.schedule sdl, school.courses cs "
+            String sql = "select st.first_name, st.last_name from school.students st, school.students_courses sdl, school.courses cs "
                     + "Where st.student_id = sdl.student_id " + "and cs.course_id = sdl.course_id  "
                     + "and cs.course_name = ?";
 
@@ -142,7 +141,7 @@ public class SchoolDao {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.schedule (course_id, student_id)" + "values" + "(?,?)";
+            String sql = "insert into school.students_courses (course_id, student_id)" + "values" + "(?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
           
             statement.setInt(1, courseID);
@@ -171,7 +170,7 @@ public class SchoolDao {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connenc PostgreSQL");
 
-            String sql = "delete from school.schedule sd " + "where course_id = ? and student_id = ?";
+            String sql = "delete from school.students_courses sd " + "where course_id = ? and student_id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, courseID);

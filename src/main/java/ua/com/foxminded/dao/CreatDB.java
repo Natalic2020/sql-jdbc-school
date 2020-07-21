@@ -5,35 +5,31 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.stream.Stream;
+
 
 import ua.com.foxminded.util.FileParser;
 
 public class CreatDB {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/school1";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "1234";
 
-    public void createAllDB() {
-        Stream.of("courses", "groups", "students").forEach(this::deleteTable);
-
+    public void createDBWithTables() {
         FileParser file = new FileParser();
         List<String> sqlQueryList = file.readFileToLines("sql.script");
-        sqlQueryList.forEach(this::createTable);
-
-        createSchedule();
+        sqlQueryList.stream().limit(2).forEach(this::dropCreateDB);
+        sqlQueryList.stream().skip(2).forEach(this::createTable);
     }
-
-    public void deleteTable(String table) {
+    
+    public void dropCreateDB(String sql) {
+        System.out.println("delete BD");
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "1234"); 
+               
             Statement statement = connection.createStatement();
-            String sqlSDrop = "DROP TABLE IF EXISTS school." + table;
-
-            statement.executeUpdate(sqlSDrop);
+            statement.executeUpdate(sql);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,14 +64,5 @@ public class CreatDB {
                 }
             }
         }
-    }
-
-    public void createSchedule() {
-
-        deleteTable("schedule");
-
-        String sqlSchedule = "create table school.schedule" + "	(schedule_id serial PRIMARY KEY, "
-                + "	course_id int  NOT NULL , " + "	student_id int  NOT NULL )";
-        createTable(sqlSchedule);
     }
 }

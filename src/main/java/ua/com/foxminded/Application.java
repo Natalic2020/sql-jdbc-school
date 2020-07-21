@@ -7,7 +7,7 @@ import ua.com.foxminded.menu.Menu;
 public class Application {
 
     static {
-        new CreatDB().createAllDB();
+        new CreatDB().createDBWithTables();
         new FillDao().fillAllDB();
     }
 
