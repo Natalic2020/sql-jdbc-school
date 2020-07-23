@@ -1,4 +1,4 @@
-package ua.com.foxminded.util;
+package ua.com.foxminded.servicedb;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,10 +15,6 @@ import ua.com.foxminded.dto.Student;
 
 public class AuxiliaryValue {
 
-//    int groupId = 1;
-//    int courseId = 1;
-//    int studentId = 1;
-//    int scheduleId = 1;
     private static final String TEXT_SEPARATOR = "_";
 
     public Group createGroup(String text) {

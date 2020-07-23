@@ -23,8 +23,9 @@ public class SchoolDao {
             System.out.println("search students in group less or equals " + countStudents);
 
             String sql = "select Count(st.student_id) as count_students, st.group_id, gr.group_name group_name "
-                    + "from school.groups gr, " + "school.students st " + "where gr.group_id = st.group_id "
-                    + "group by st.group_id, gr.group_name " + "having Count(st.student_id) <= ? "
+                    + "from school.groups gr, school.students st " 
+                    + "where gr.group_id = st.group_id " //
+                    + "group by st.group_id, gr.group_name having Count(st.student_id) <= ? "
                     + "order by count_students ";
 
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -54,7 +55,7 @@ public class SchoolDao {
             System.out.println("search students in course  " + courseName);
 
             String sql = "select st.first_name, st.last_name from school.students st, school.students_courses sdl, school.courses cs "
-                    + "Where st.student_id = sdl.student_id " + "and cs.course_id = sdl.course_id  "
+                    + "Where st.student_id = sdl.student_id and cs.course_id = sdl.course_id  "
                     + "and cs.course_name = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -83,7 +84,7 @@ public class SchoolDao {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.students (student_id, first_name, last_name)" + "values" + "(?,?,?)";
+            String sql = "insert into school.students (student_id, first_name, last_name)  values" + "(?,?,?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -113,7 +114,7 @@ public class SchoolDao {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "delete from school.students st " + "where st.student_id = ? ";
+            String sql = "delete from school.students st where st.student_id = ? ";
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
@@ -141,7 +142,7 @@ public class SchoolDao {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            String sql = "insert into school.students_courses (course_id, student_id)" + "values" + "(?,?)";
+            String sql = "insert into school.students_courses (course_id, student_id) values" + "(?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
           
             statement.setInt(1, courseID);
@@ -170,7 +171,7 @@ public class SchoolDao {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connenc PostgreSQL");
 
-            String sql = "delete from school.students_courses sd " + "where course_id = ? and student_id = ?";
+            String sql = "delete from school.students_courses sd  where course_id = ? and student_id = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, courseID);

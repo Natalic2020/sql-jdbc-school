@@ -1,13 +1,13 @@
 package ua.com.foxminded;
 
-import ua.com.foxminded.dao.CreatDB;
 import ua.com.foxminded.dao.FillDao;
 import ua.com.foxminded.menu.Menu;
+import ua.com.foxminded.servicedb.FileProcessing;
 
 public class Application {
 
     static {
-        new CreatDB().createDBWithTables();
+        new FileProcessing().createDBWithTables();
         new FillDao().fillAllDB();
     }
 
