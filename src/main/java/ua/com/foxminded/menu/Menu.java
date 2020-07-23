@@ -42,7 +42,6 @@ public class Menu {
                 runChoice(choice, scanInput);
             }
         }
-        System.out.println("Shao");
     }
 
     private void runChoice(int choice, Scanner scanInput) {
