@@ -10,6 +10,7 @@ import ua.com.foxminded.dao.SchoolDao;
 import ua.com.foxminded.useractions.AddStudent;
 import ua.com.foxminded.useractions.AddStudentToCourse;
 import ua.com.foxminded.useractions.DeleteStudent;
+import ua.com.foxminded.useractions.Exit;
 import ua.com.foxminded.useractions.RemoveStudentFromCourse;
 import ua.com.foxminded.useractions.SearchGroups;
 import ua.com.foxminded.useractions.SearchStudentsInCourse;
@@ -46,7 +47,7 @@ public class Menu {
 
     private void runChoice(int choice, Scanner scanInput) {
         
-        if (choice < 1 || choice > 6) {
+        if (choice < 1 || choice > 7) {
             return ;
         }
         UserOption userOption = (UserOption) menuMap.get(choice);
@@ -61,5 +62,6 @@ public class Menu {
         menuMap.put(4, new DeleteStudent(new SchoolDao()));
         menuMap.put(5, new AddStudentToCourse(new SchoolDao()));
         menuMap.put(6, new RemoveStudentFromCourse(new SchoolDao()));
+        menuMap.put(7, new Exit(new SchoolDao()));
     }
 }
