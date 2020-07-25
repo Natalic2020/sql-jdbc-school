@@ -36,7 +36,6 @@ public class BasicConnectionPool implements ConnectionPool {
         this.connectionPool = connectionPool;
     }
 
-   
     @Override
     public Connection getConnection() {
         if (connectionPool.isEmpty()) {
@@ -44,7 +43,6 @@ public class BasicConnectionPool implements ConnectionPool {
                 try {
                     connectionPool.add(createConnection(url, user, password));
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -61,7 +59,6 @@ public class BasicConnectionPool implements ConnectionPool {
                 connection = createConnection(url, user, password);
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
      

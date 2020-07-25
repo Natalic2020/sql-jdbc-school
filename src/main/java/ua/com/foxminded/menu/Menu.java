@@ -44,8 +44,7 @@ public class Menu {
         }
     }
 
-    private void runChoice(int choice, Scanner scanInput) {
-        
+    private void runChoice(int choice, Scanner scanInput) {      
         if (choice < 1 || choice > 7) {
             return ;
         }

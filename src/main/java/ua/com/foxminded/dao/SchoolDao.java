@@ -20,8 +20,8 @@ public class SchoolDao {
     public void searchGroups(int countStudents) {
         Connection connection = basicConnectionPool.getConnection();
         String sql = "select Count(st.student_id) as count_students, st.group_id, gr.group_name group_name "
-                + "from school.groups gr, school.students st " + "where gr.group_id = st.group_id " //
-                + "group by st.group_id, gr.group_name having Count(st.student_id) <= ? " + "order by count_students ";
+                + "from school.groups gr, school.students st where gr.group_id = st.group_id " //
+                + "group by st.group_id, gr.group_name having Count(st.student_id) <= ? order by count_students ";
 
         PreparedStatement statement;
         try {
@@ -40,7 +40,7 @@ public class SchoolDao {
     public void searchStudentsInCourse(String courseName) {
         Connection connection = basicConnectionPool.getConnection();
         String sql = "select st.first_name, st.last_name from school.students st, school.students_courses sdl, school.courses cs "
-                + "Where st.student_id = sdl.student_id and cs.course_id = sdl.course_id  " + "and cs.course_name = ?";
+                + "Where st.student_id = sdl.student_id and cs.course_id = sdl.course_id  and cs.course_name = ?";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
@@ -58,7 +58,7 @@ public class SchoolDao {
 
     public void addStudent(int studentId, String firstName, String lastName) {
         Connection connection = basicConnectionPool.getConnection();
-        String sql = "insert into school.students (student_id, first_name, last_name)  values" + "(?,?,?)";
+        String sql = "insert into school.students (student_id, first_name, last_name)  values (?,?,?)";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class SchoolDao {
 
     public void addStudentToCourse(int courseID, int studentID) {
         Connection connection = basicConnectionPool.getConnection();
-        String sql = "insert into school.students_courses (course_id, student_id) values" + "(?,?)";
+        String sql = "insert into school.students_courses (course_id, student_id) values (?,?)";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
