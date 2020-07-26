@@ -1,8 +1,10 @@
 package ua.com.foxminded.menu.useractions;
 
+import java.util.List;
 import java.util.Scanner;
 
 import ua.com.foxminded.dao.SchoolDao;
+import ua.com.foxminded.dto.Student;
 
 public class SearchStudentsInCourse implements UserOption {
 
@@ -16,6 +18,9 @@ public class SearchStudentsInCourse implements UserOption {
     public void apply(Scanner scanInput) {
         System.out.print("Enter course name : ");
         String courseName = scanInput.next();
-        query.searchStudentsInCourse(courseName);
+        List<Student> students = query.searchStudentsInCourse(courseName);
+        students
+                .stream()
+                .forEach(student -> System.out.println(student.toString()));
     }
 }

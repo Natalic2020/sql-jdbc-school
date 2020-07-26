@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
+import ua.com.foxminded.dto.Group;
+import ua.com.foxminded.dto.Student;
 
 public class SchoolDao {
 
@@ -17,7 +20,8 @@ public class SchoolDao {
     static BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL, USERNAME, PASSWORD,
             new ArrayList<Connection>());
 
-    public void searchGroups(int countStudents) {
+    public List<Group> searchGroups(int countStudents) {
+        List<Group> groups = new ArrayList<>();
         Connection connection = basicConnectionPool.getConnection();
         String sql = "select Count(st.student_id) as count_students, st.group_id, gr.group_name group_name "
                 + "from school.groups gr, school.students st where gr.group_id = st.group_id " //
@@ -28,16 +32,18 @@ public class SchoolDao {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, countStudents);
             ResultSet resultSet = statement.executeQuery();
-
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("group_name") + " :  " + resultSet.getInt("count_students"));
+                groups.add(new Group(resultSet.getString("group_name"), resultSet.getInt("count_students")));     
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            return groups;
         }
     }
 
-    public void searchStudentsInCourse(String courseName) {
+    public List<Student> searchStudentsInCourse(String courseName) {
+        List<Student> students = new ArrayList<>();
         Connection connection = basicConnectionPool.getConnection();
         String sql = "select st.first_name, st.last_name from school.students st, school.students_courses sdl, school.courses cs "
                 + "Where st.student_id = sdl.student_id and cs.course_id = sdl.course_id  and cs.course_name = ?";
@@ -48,11 +54,12 @@ public class SchoolDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                System.out.println(
-                        String.format("%s %s", resultSet.getString("first_name"), resultSet.getString("last_name")));
+                students.add(new Student(resultSet.getString("first_name"), resultSet.getString("last_name")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            return students;
         }
     }
 

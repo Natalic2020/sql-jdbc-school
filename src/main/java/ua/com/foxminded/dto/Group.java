@@ -5,6 +5,7 @@ public class Group {
     static int count;
     int groupId;
     String groupName;
+    int countStudents;
    
     public Group(String groupName) {
         this.count ++;
@@ -12,6 +13,11 @@ public class Group {
         this.groupName = groupName;
     }
 
+    public Group(String groupName, int countStudents) {
+        this.groupName = groupName;
+        this.countStudents = countStudents;
+    }
+    
     public int getGroupId() {
         return groupId;
     }
@@ -25,4 +31,9 @@ public class Group {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
+    @Override
+    public String toString() {
+        return  groupName + ":" + countStudents;
+    } 
 }
