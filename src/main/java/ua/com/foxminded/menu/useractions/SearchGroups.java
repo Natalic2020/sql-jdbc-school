@@ -1,4 +1,4 @@
-package ua.com.foxminded.useractions;
+package ua.com.foxminded.menu.useractions;
 
 import java.util.Scanner;
 

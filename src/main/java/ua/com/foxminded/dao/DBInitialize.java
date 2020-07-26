@@ -11,8 +11,8 @@ import java.util.Map;
 
 import javax.xml.crypto.Data;
 
-import ua.com.foxminded.connection.BasicConnectionPool;
-import ua.com.foxminded.connection.ConnectionPool;
+import ua.com.foxminded.dao.connection.BasicConnectionPool;
+import ua.com.foxminded.dao.connection.ConnectionPool;
 import ua.com.foxminded.dto.Course;
 import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;

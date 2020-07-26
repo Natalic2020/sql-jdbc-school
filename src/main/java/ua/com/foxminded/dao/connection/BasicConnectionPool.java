@@ -1,4 +1,4 @@
-package ua.com.foxminded.connection;
+package ua.com.foxminded.dao.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

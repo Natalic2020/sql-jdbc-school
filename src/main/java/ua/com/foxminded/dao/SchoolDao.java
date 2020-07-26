@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import ua.com.foxminded.connection.BasicConnectionPool;
+import ua.com.foxminded.dao.connection.BasicConnectionPool;
 
 public class SchoolDao {
 

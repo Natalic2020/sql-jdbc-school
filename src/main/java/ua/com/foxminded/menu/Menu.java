@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 import ua.com.foxminded.dao.SchoolDao;
-import ua.com.foxminded.useractions.AddStudent;
-import ua.com.foxminded.useractions.AddStudentToCourse;
-import ua.com.foxminded.useractions.DeleteStudent;
-import ua.com.foxminded.useractions.Exit;
-import ua.com.foxminded.useractions.RemoveStudentFromCourse;
-import ua.com.foxminded.useractions.SearchGroups;
-import ua.com.foxminded.useractions.SearchStudentsInCourse;
-import ua.com.foxminded.useractions.UserOption;
+import ua.com.foxminded.menu.useractions.AddStudent;
+import ua.com.foxminded.menu.useractions.AddStudentToCourse;
+import ua.com.foxminded.menu.useractions.DeleteStudent;
+import ua.com.foxminded.menu.useractions.Exit;
+import ua.com.foxminded.menu.useractions.RemoveStudentFromCourse;
+import ua.com.foxminded.menu.useractions.SearchGroups;
+import ua.com.foxminded.menu.useractions.SearchStudentsInCourse;
+import ua.com.foxminded.menu.useractions.UserOption;
 
 public class Menu {
 
