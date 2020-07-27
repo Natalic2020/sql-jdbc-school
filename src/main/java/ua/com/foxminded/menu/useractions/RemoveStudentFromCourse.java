@@ -18,6 +18,6 @@ public class RemoveStudentFromCourse implements UserOption {
         int remove_course_id = scanInput.nextInt();
         System.out.print("Enter id student : ");
         int remove_student_id = scanInput.nextInt();
-        query.removeStudentFromCourse(remove_course_id, remove_student_id);
+        System.out.println("Removed " +  query.removeStudentFromCourse(remove_course_id, remove_student_id) + " student(s) from course(s)");
     }
 }

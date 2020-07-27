@@ -38,6 +38,7 @@ public class SchoolDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            basicConnectionPool.getUsedConnections().clear();
             return groups;
         }
     }
@@ -59,11 +60,13 @@ public class SchoolDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            basicConnectionPool.getUsedConnections().clear();
             return students;
         }
     }
 
-    public void addStudent(int studentId, String firstName, String lastName) {
+    public int addStudent(int studentId, String firstName, String lastName) {
+        int countStudents = 0; 
         Connection connection = basicConnectionPool.getConnection();
         String sql = "insert into school.students (student_id, first_name, last_name)  values (?,?,?)";
         PreparedStatement statement;
@@ -72,26 +75,34 @@ public class SchoolDao {
             statement.setInt(1, studentId);
             statement.setString(2, firstName);
             statement.setString(3, lastName);
-            statement.executeUpdate();
+            countStudents = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
+            return countStudents;
         }
     }
 
-    public void deleteStudent(int studentID) {
+    public int deleteStudent(int studentID) {
+        int countStudents = 0;
         Connection connection = basicConnectionPool.getConnection();
         String sql = "delete from school.students st where st.student_id = ? ";
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, studentID);
-            statement.executeUpdate();
+            countStudents = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
+            return countStudents;
         }
     }
 
-    public void addStudentToCourse(int courseID, int studentID) {
+    public int addStudentToCourse(int courseID, int studentID) {
+        int countStudents = 0;
         Connection connection = basicConnectionPool.getConnection();
         String sql = "insert into school.students_courses (course_id, student_id) values (?,?)";
         PreparedStatement statement;
@@ -99,13 +110,17 @@ public class SchoolDao {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, courseID);
             statement.setInt(2, studentID);
-            statement.executeUpdate();
+            countStudents = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
+            return countStudents;
         }
     }
 
-    public void removeStudentFromCourse(int courseID, int studentID) {
+    public int removeStudentFromCourse(int courseID, int studentID) {
+        int countStudents = 0;
         Connection connection = basicConnectionPool.getConnection();
         String sql = "delete from school.students_courses sd  where course_id = ? and student_id = ?";
         PreparedStatement statement;
@@ -113,9 +128,12 @@ public class SchoolDao {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, courseID);
             statement.setInt(2, studentID);
-            statement.executeUpdate();
+            countStudents = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
+            return countStudents;
         }
     }
 
@@ -124,6 +142,8 @@ public class SchoolDao {
             basicConnectionPool.shutdown();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 }

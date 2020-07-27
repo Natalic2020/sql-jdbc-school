@@ -20,6 +20,6 @@ public class AddStudent implements UserOption {
         System.out.print("Enter last name : ");
         String lastName = scanInput.next();
         Student student = new Student(firstName, lastName);
-        query.addStudent(student.getStudentId(),firstName, lastName);
+        System.out.println("Added " + query.addStudent(student.getStudentId(),firstName, lastName) + " student(s)");
     }
 }

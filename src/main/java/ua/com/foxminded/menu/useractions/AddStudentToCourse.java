@@ -19,7 +19,7 @@ public class AddStudentToCourse implements UserOption {
         int add_course_id = scanInput.nextInt();
         System.out.print("Enter id student : ");
         int add_student_id = scanInput.nextInt();
-        
-        query.addStudentToCourse(add_course_id, add_student_id);
+    
+        System.out.println("Added " +  query.addStudentToCourse(add_course_id, add_student_id) + " student(s) to course(s)");
     }
 }

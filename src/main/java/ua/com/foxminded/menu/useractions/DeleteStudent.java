@@ -16,6 +16,6 @@ public class DeleteStudent implements UserOption {
     public void apply(Scanner scanInput) {
         System.out.print("Enter STUDENT_ID to remove student : ");
         int student_id = scanInput.nextInt();
-        query.deleteStudent(student_id);
+        System.out.println("Deleted " +  query.deleteStudent(student_id) + " student(s)");
     }
 }

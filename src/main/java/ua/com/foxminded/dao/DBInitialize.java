@@ -5,14 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.crypto.Data;
-
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
-import ua.com.foxminded.dao.connection.ConnectionPool;
 import ua.com.foxminded.dto.Course;
 import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;
@@ -80,7 +76,7 @@ public class DBInitialize {
         fillStudents(students);
 
         Map<Integer, List<Integer>> studentsCourses = value.receiveStudentsCourses(courses, students);
-        fillSchedule(studentsCourses);
+        fillStudentsCourses(studentsCourses);
 
         try {
             basicConnectionPool.shutdown();
@@ -105,6 +101,8 @@ public class DBInitialize {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 
@@ -127,8 +125,9 @@ public class DBInitialize {
                     }
                 });
         } catch (SQLException e1) {
-
             e1.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 
@@ -149,12 +148,13 @@ public class DBInitialize {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 
-    public void fillSchedule(Map<Integer, List<Integer>> studentsCourses) {
+    public void fillStudentsCourses(Map<Integer, List<Integer>> studentsCourses) {
 
         String sql = "insert into school.students_courses ( student_id, course_id ) values (?,?)";
 
@@ -175,6 +175,8 @@ public class DBInitialize {
             });
         } catch (SQLException e1) {
             e1.printStackTrace();
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 }
