@@ -28,23 +28,25 @@ public class DBInitialize {
     public void createDBWithTables() {
         FileParser file = new FileParser();
         List<String> sqlQueryList = file.readFileToLines("sql.script");
+        
         BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL + "/", USERNAME, PASSWORD,
                 new ArrayList<Connection>());
         sqlQueryList
                     .stream()
                     .limit(2)
-                    .forEach(sql -> runSQL(sql, basicConnectionPool.getConnection()));
+                    .forEach(sql -> runSQL(sql, basicConnectionPool));
         try {
             basicConnectionPool.shutdown();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         BasicConnectionPool basicConnectionPool2 = new BasicConnectionPool(URL_SCHOOL, USERNAME, PASSWORD,
                 new ArrayList<Connection>());
         sqlQueryList
                     .stream()
                     .skip(2)
-                    .forEach(sql -> runSQL(sql, basicConnectionPool2.getConnection()));
+                    .forEach(sql -> runSQL(sql, basicConnectionPool2));
         try {
             basicConnectionPool2.shutdown();
         } catch (SQLException e) {
@@ -52,13 +54,16 @@ public class DBInitialize {
         }
     }
 
-    public void runSQL(String sql, Connection connection) {
+    public void runSQL(String sql, BasicConnectionPool basicConnectionPool) {
+        Connection connection = basicConnectionPool.getConnection();
         Statement statement;
         try {
             statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            basicConnectionPool.getUsedConnections().clear(); 
         }
     }
 
