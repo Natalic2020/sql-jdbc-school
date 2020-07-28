@@ -15,32 +15,35 @@ import ua.com.foxminded.dto.Student;
 import ua.com.foxminded.servicedb.SchoolDataGenerator;
 import ua.com.foxminded.util.FileParser;
 
-public class DBInitialize {
+public class DBInitializer {
 
     private static final String URL = "jdbc:postgresql://localhost";
     private static final String URL_SCHOOL = URL + ":5432/school1";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "1234";
 
-    BasicConnectionPool basicConnectionPool= new BasicConnectionPool(URL_SCHOOL, USERNAME, PASSWORD,
-            new ArrayList<Connection>());
+    BasicConnectionPool basicConnectionPool;
+
+    public DBInitializer(BasicConnectionPool basicConnectionPool) {
+        this.basicConnectionPool = basicConnectionPool;    
+    }
 
     public void createDBWithTables() {
         FileParser file = new FileParser();
         List<String> sqlQueryList = file.readFileToLines("sql.script");
-        
-        BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL + "/", USERNAME, PASSWORD,
+
+        BasicConnectionPool basicConnectionPool1 = new BasicConnectionPool(URL + "/", USERNAME, PASSWORD,
                 new ArrayList<Connection>());
         sqlQueryList
                     .stream()
                     .limit(2)
-                    .forEach(sql -> runSQL(sql, basicConnectionPool));
+                    .forEach(sql -> runSQL(sql, basicConnectionPool1));
         try {
             basicConnectionPool.shutdown();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         BasicConnectionPool basicConnectionPool2 = new BasicConnectionPool(URL_SCHOOL, USERNAME, PASSWORD,
                 new ArrayList<Connection>());
         sqlQueryList
@@ -62,8 +65,8 @@ public class DBInitialize {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            basicConnectionPool.getUsedConnections().clear(); 
+        } finally {
+            basicConnectionPool.getUsedConnections().clear();
         }
     }
 
@@ -83,19 +86,14 @@ public class DBInitialize {
         Map<Integer, List<Integer>> studentsCourses = value.receiveStudentsCourses(courses, students);
         fillStudentsCourses(studentsCourses);
 
-        try {
-            basicConnectionPool.shutdown();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void fillGroups(List<Group> groups) {
 
         String sql = "insert into school.groups (group_id, group_name) values (?,?)";
-  
+
         Connection connection = basicConnectionPool.getConnection();
-        
+
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
@@ -167,17 +165,19 @@ public class DBInitialize {
         PreparedStatement statement;
         try {
             statement = connection.prepareStatement(sql);
-            studentsCourses.entrySet().stream().forEach(data -> {
-                data.getValue().forEach(data2 -> {
-                    try {
-                        statement.setInt(1, data.getKey());
-                        statement.setInt(2, data2);
-                        statement.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }   
+            studentsCourses.entrySet().stream().forEach(data ->
+                {
+                    data.getValue().forEach(data2 ->
+                        {
+                            try {
+                                statement.setInt(1, data.getKey());
+                                statement.setInt(2, data2);
+                                statement.executeUpdate();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        });
                 });
-            });
         } catch (SQLException e1) {
             e1.printStackTrace();
         } finally {
