@@ -6,10 +6,10 @@ import ua.com.foxminded.dao.SchoolDao;
 
 public class RemoveStudentFromCourse implements UserOption {
 
-    SchoolDao query;
+    SchoolDao school;
     
-    public RemoveStudentFromCourse(SchoolDao query) {
-        this.query = query;
+    public RemoveStudentFromCourse(SchoolDao school) {
+        this.school = school;
     }
 
     @Override
@@ -18,6 +18,6 @@ public class RemoveStudentFromCourse implements UserOption {
         int remove_course_id = scanInput.nextInt();
         System.out.print("Enter id student : ");
         int remove_student_id = scanInput.nextInt();
-        System.out.println("Removed " +  query.removeStudentFromCourse(remove_course_id, remove_student_id) + " student(s) from course(s)");
+        System.out.println("Removed " +  school.removeStudentFromCourse(remove_course_id, remove_student_id) + " student(s) from course(s)");
     }
 }

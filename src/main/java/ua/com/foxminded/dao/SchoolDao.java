@@ -20,6 +20,13 @@ public class SchoolDao {
     static BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL, USERNAME, PASSWORD,
             new ArrayList<Connection>());
 
+    public SchoolDao(BasicConnectionPool basicConnectionPool) {
+        this.basicConnectionPool = basicConnectionPool;
+    }
+    
+    public SchoolDao() {
+    }
+
     public List<Group> searchGroups(int countStudents) {
         List<Group> groups = new ArrayList<>();
         Connection connection = basicConnectionPool.getConnection();

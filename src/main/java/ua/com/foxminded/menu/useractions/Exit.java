@@ -6,14 +6,14 @@ import ua.com.foxminded.dao.SchoolDao;
 
 public class Exit implements UserOption {
 
-    SchoolDao query;
+    SchoolDao school;
 
-    public Exit(SchoolDao query) {
-        this.query = query;
+    public Exit(SchoolDao school) {
+        this.school = school;
     }
 
     @Override
     public void apply(Scanner scanInput) {
-        query.exit();   
+        school.exit();   
     }
 }

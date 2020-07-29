@@ -1,4 +1,4 @@
-package ua.com.foxminded.school;
+package ua.com.foxminded.util;
 
 import static org.junit.jupiter.api.Assertions.*;
 

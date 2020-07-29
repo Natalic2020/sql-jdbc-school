@@ -1,22 +1,30 @@
 package ua.com.foxminded.menu.useractions;
 
+import java.util.List;
 import java.util.Scanner;
 import ua.com.foxminded.dao.SchoolDao;
+import ua.com.foxminded.dto.Group;
+import ua.com.foxminded.dto.Student;
 
 public class SearchGroups implements UserOption {
 
-    SchoolDao query;
+    SchoolDao school;
 
-    public SearchGroups(SchoolDao query) {
-        this.query = query;
+    public SearchGroups(SchoolDao school) {
+        this.school = school;
     }
 
     @Override
     public void apply(Scanner scanInput) {
         System.out.print("Enter count students in group : ");
         int countStudents = scanInput.nextInt();
-        query.searchGroups(countStudents)
-             .stream()
-             .forEach(group -> System.out.println(group.toString()));
+        List<Group> groups = school.searchGroups(countStudents);
+        
+        if (groups.size() == 0) {
+            System.out.println("No group found");
+        } else {
+            groups.stream()
+            .peek(group -> System.out.println(group.toString())).findAny().isPresent();
+        }
     }
 }

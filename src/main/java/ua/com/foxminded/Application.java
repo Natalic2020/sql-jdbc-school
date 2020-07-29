@@ -19,8 +19,9 @@ public class Application {
             new ArrayList<Connection>());
     
     static {
-        new DBInitializer(basicConnectionPool9).createDBWithTables();
-        new DBInitializer(basicConnectionPool9).fillAllDB();
+        DBInitializer dbInitializer = new DBInitializer(basicConnectionPool9);
+        dbInitializer.createDBWithTables();
+        dbInitializer.fillAllDB();
     }
 
     public static void main(String[] args) {

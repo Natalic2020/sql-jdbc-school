@@ -7,10 +7,10 @@ import ua.com.foxminded.dto.Student;
 
 public class AddStudentToCourse implements UserOption {
 
-    SchoolDao query;
+    SchoolDao school;
 
-    public AddStudentToCourse(SchoolDao query) {
-        this.query = query;
+    public AddStudentToCourse(SchoolDao school) {
+        this.school = school;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class AddStudentToCourse implements UserOption {
         System.out.print("Enter id student : ");
         int add_student_id = scanInput.nextInt();
     
-        System.out.println("Added " +  query.addStudentToCourse(add_course_id, add_student_id) + " student(s) to course(s)");
+        System.out.println("Added " +  school.addStudentToCourse(add_course_id, add_student_id) + " student(s) to course(s)");
     }
 }

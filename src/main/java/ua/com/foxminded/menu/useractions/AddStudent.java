@@ -7,10 +7,10 @@ import ua.com.foxminded.dto.Student;
 
 public class AddStudent implements UserOption {
 
-    SchoolDao query;
+    SchoolDao school;
 
-    public AddStudent(SchoolDao query) {
-        this.query = query;
+    public AddStudent(SchoolDao school) {
+        this.school = school;
     }
 
     @Override
@@ -20,6 +20,6 @@ public class AddStudent implements UserOption {
         System.out.print("Enter last name : ");
         String lastName = scanInput.next();
         Student student = new Student(firstName, lastName);
-        System.out.println("Added " + query.addStudent(student.getStudentId(),firstName, lastName) + " student(s)");
+        System.out.println("Added " + school.addStudent(student.getStudentId(),firstName, lastName) + " student(s)");
     }
 }
