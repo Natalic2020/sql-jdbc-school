@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
 import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;
+import ua.com.foxminded.util.Check;
 
 public class SchoolDao {
 
@@ -20,6 +22,8 @@ public class SchoolDao {
     static BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL, USERNAME, PASSWORD,
             new ArrayList<Connection>());
 
+    Check check = new Check();
+    
     public SchoolDao(BasicConnectionPool basicConnectionPool) {
         this.basicConnectionPool = basicConnectionPool;
     }
@@ -49,8 +53,10 @@ public class SchoolDao {
             return groups;
         }
     }
-
+    
     public List<Student> searchStudentsInCourse(String courseName) {
+        check.checkParameter(courseName);
+        
         List<Student> students = new ArrayList<>();
         Connection connection = basicConnectionPool.getConnection();
         String sql = "select st.first_name, st.last_name from school.students st, school.students_courses sdl, school.courses cs "
@@ -73,6 +79,9 @@ public class SchoolDao {
     }
 
     public int addStudent(int studentId, String firstName, String lastName) {
+        check.checkParameter(firstName);
+        check.checkParameter(lastName);
+        
         int countStudents = 0; 
         Connection connection = basicConnectionPool.getConnection();
         String sql = "insert into school.students (student_id, first_name, last_name)  values (?,?,?)";
