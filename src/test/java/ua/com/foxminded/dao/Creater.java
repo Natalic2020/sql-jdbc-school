@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
 
-class ss {
+class Creater {
 
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/school105;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
@@ -28,7 +28,7 @@ class ss {
 //            new ArrayList<Connection>());
     
    @Test
-    void dd() throws Exception {
+    void createXML() throws Exception {
             // database connection
        Connection jdbcConnection = null;
        IDatabaseConnection connection = null;
