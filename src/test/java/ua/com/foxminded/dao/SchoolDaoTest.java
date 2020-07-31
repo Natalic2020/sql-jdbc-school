@@ -19,7 +19,7 @@ import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;
 
 class SchoolDaoTest {
-    
+
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/school1";
 
@@ -30,6 +30,7 @@ class SchoolDaoTest {
             new ArrayList<Connection>());
 
     SchoolDao school = new SchoolDao(basicConnectionPool);
+
     @BeforeEach
     void init() {
         Connection conn = null;
@@ -38,7 +39,7 @@ class SchoolDaoTest {
             Class.forName(JDBC_DRIVER);
             conn = basicConnectionPool.getConnection();
             stmt = conn.createStatement();
-            
+
             String sql = "DROP ALL OBJECTS";
             stmt.executeUpdate(sql);
             sql = "CREATE SCHEMA school";
@@ -101,178 +102,73 @@ class SchoolDaoTest {
 
     @Test
     public void addStudent_shouldThrowIllegalArgumentException_whenInputFirstNameNull() {
-        assertThrows(IllegalArgumentException.class, () ->
-                school.addStudent(5, null, "Svet")
-            );
+        assertThrows(IllegalArgumentException.class, () -> school.addStudent(5, null, "Svet"));
     }
-    
+
     @Test
     public void addStudent_shouldThrowIllegalArgumentException_whenInputLastNameNull() {
-        assertThrows(IllegalArgumentException.class, () ->
-                school.addStudent(5, "Nata", null)
-            );
+        assertThrows(IllegalArgumentException.class, () -> school.addStudent(5, "Nata", null));
     }
-    
+
     @Test
     public void searchStudentsInCourse_shouldThrowIllegalArgumentException_whenInputCourseNull() {
-        assertThrows(IllegalArgumentException.class, () ->
-        school.searchStudentsInCourse(null)
-            );
+        assertThrows(IllegalArgumentException.class, () -> school.searchStudentsInCourse(null));
     }
-    
+
     @Test
     public void addStudent_schoudReturn1Student_whenInput1Student() {
-        Connection conn = null;
-        Statement stmt = null;
+        int expected = 1;
 
-        try {
-            Class.forName(JDBC_DRIVER);
-            System.out.println("Connecting to database...");
-            conn = basicConnectionPool.getConnection();
-            stmt = conn.createStatement();
+        int actual = school.addStudent(5, "Nata", "Svet");
 
-            int countStudent = school.addStudent(5, "Nata", "Svet");
-
-            assertEquals(1, countStudent, "Added 1 student to course");
-            
-            String sql = "Select * From school.students";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            assertTrue(rs.first());
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual, "Added 1 student to course");
     }
 
     @Test
     public void searchGroups_schoudReturn2Groups_whenInput2RightGroups() {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = basicConnectionPool.getConnection();
-            stmt = conn.createStatement();
+        List<Group> expected = new ArrayList<Group>();
+        expected.add(new Group("gr3", 1));
 
-            List<Group> expected = new ArrayList<Group>();
-            expected.add(new Group("gr3", 1));
+        List<Group> actual = school.searchGroups(1);
 
-            List<Group> actual = school.searchGroups(1);
-
-            assertEquals(expected, actual);
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual);
     }
 
     @Test
     public void searchStudentsInCourse_schoudReturn2Students_whenInput1Course() {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = basicConnectionPool.getConnection();
-            stmt = conn.createStatement();
+        List<Student> expected = new ArrayList<>();
+        expected.add(new Student("Nina", "Ivanova"));
+        expected.add(new Student("Nona", "Petrova"));
 
-            List<Student> expected = new ArrayList<>();
-            expected.add(new Student("Nina", "Ivanova"));
-            expected.add(new Student("Nona", "Petrova"));
+        List<Student> actual = school.searchStudentsInCourse("maths");
 
-            List<Student> actual = school.searchStudentsInCourse("maths");
-
-            assertEquals(expected, actual);
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual);
     }
 
     @Test
     public void deleteStudent_schoudDeletedStudent_whenDeleteStudent() {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = basicConnectionPool.getConnection();
+        int expected = 1;
+        
+        int actual = school.deleteStudent(2);
 
-            stmt = conn.createStatement();
-
-            int countDeletedStudent = school.deleteStudent(2);
-
-            assertEquals(1, countDeletedStudent, "Deleted 1 Student");
-
-            String sql = "Select * From school.students where student_id = 2";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            assertFalse(rs.first());
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual, "Deleted 1 Student");
     }
 
     @Test
     public void addStudentToCourse_schoudReturn1StudentInCourse_whenInputStudentCourse() {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = basicConnectionPool.getConnection();
+        int expected = 1;
+        
+        int actual = school.addStudentToCourse(2, 2);
 
-            stmt = conn.createStatement();
-
-            int countStudent = school.addStudentToCourse(2, 2);
-
-            assertEquals(1, countStudent, "Added 1 Student to Course");
-
-            String sql = "Select * From school.students_courses where student_id = 2 and course_id = 2";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            assertTrue(rs.first());
-
-            int idStudent = rs.getInt("student_id");
-            int idCourse = rs.getInt("course_id");
-            assertEquals(2, idStudent, "student_id = 1");
-            assertEquals(2, idCourse, "course_id = 1");
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual, "Added 1 Student to Course");
     }
 
     @Test
     public void removeStudentFromCourse_schoudReturnEmpty_whenDeleteStudentFromCourse() {
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = basicConnectionPool.getConnection();
-            stmt = conn.createStatement();
+        int expected = 1;
+        
+        int actual = school.removeStudentFromCourse(1, 1);
 
-            int countStudent = school.removeStudentFromCourse(1, 1);
-
-            assertEquals(1, countStudent, "Deleted 1 Student to Course");
-
-            String sql = "Select * From school.students_courses where student_id = 1 and course_id = 1";
-            ResultSet rs = stmt.executeQuery(sql);
-
-            assertFalse(rs.first());
-
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        assertEquals(expected, actual, "Deleted 1 Student to Course");
     }
 }

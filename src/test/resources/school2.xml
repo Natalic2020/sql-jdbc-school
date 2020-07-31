@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<school>
+	<groups  group_id = "1"   group_name="gr1" />
+	<groups  group_id = "2"   group_name="gr2" />
+	<groups  group_id = "3"   group_name="gr3" />
+	<students  student_id = "1"   first_name="Nina"  last_name="Ivanova"  group_id = "1" />
+	<students  student_id = "2"   first_name="Nona"  last_name="Petrova"  group_id = "1" />
+	<students  student_id = "3"   first_name="Igor"  last_name="Beliy"  group_id = "3" />
+	<courses  course_id = "1"   course_name="maths" />
+	<courses  course_id = "2"   course_name="art" />
+	<students_courses  student_id = "1"   course_id="1" />
+	<students_courses  student_id = "2"   course_id="1" />
+	<students_courses  student_id = "3"   course_id="2" />
+	</school>
+</dataset>
