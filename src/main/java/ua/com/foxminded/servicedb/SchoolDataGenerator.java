@@ -20,17 +20,17 @@ public class SchoolDataGenerator {
     final Random random = new Random();
     private static final String TEXT_SEPARATOR = "_";
 
-    public Group createGroup(String text) {
+    private Group createGroup(String text) {
         return new Group("gr-" + text);
     }
 
-    public String[] formSubjects() {
+    private String[] formSubjects() {
         String[] subjects = { "maths", "history", "geography", "literature", "sport", "music", "biology", "art",
                 "Informatics", "religion" };
         return subjects;
     }
 
-    public List<String> recieveRandomValues(int amount) {
+    private List<String> recieveRandomValues(int amount) {
         List<String> listWithValue = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             listWithValue.add(String.valueOf(i + 10));
@@ -57,17 +57,17 @@ public class SchoolDataGenerator {
         return course;
     }
 
-    public Course createCourse(String text) {
+    private Course createCourse(String text) {
         return new Course(text);
     }
 
-    public String[] formFirstNames() {
+    private String[] formFirstNames() {
         String[] names = { "Liam", "Emma", "Noah", "Olivia", "Mason", "Ava", "Ethan", "Sophia", "Logan", "Isabella",
                 "Lucas", "Mia", "Jackson", "Charlotte", "Aiden", "Amelia", "Oliver", "Emily", "Jacob", "Madison" };
         return names;
     }
 
-    public String[] formLastNames() {
+    private String[] formLastNames() {
         String[] courses = { "Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Moore",
                 "Taylor", "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin", "Thompson", "Wood", "Lewis",
                 "Scott" };
@@ -115,7 +115,7 @@ public class SchoolDataGenerator {
         return students;
     }
 
-    public Student createStudents(String text) {
+    private Student createStudents(String text) {
         Optional
                 .ofNullable(text)
                 .orElseThrow(() -> new IllegalArgumentException("Null as name is not allowed "));
@@ -146,7 +146,7 @@ public class SchoolDataGenerator {
         return studentCourses;
     }
 
-    public List<Integer> receiveStudentCourses(List<Course> courses) {
+    private List<Integer> receiveStudentCourses(List<Course> courses) {
         Collections.shuffle(courses);
         List<Integer> studentcourses = new ArrayList<>();
         int quantityCourses = random.nextInt(3);

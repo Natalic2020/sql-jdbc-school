@@ -21,5 +21,5 @@ public class AddStudent implements UserOption {
         String lastName = scanInput.next();
         Student student = new Student(firstName, lastName);
         System.out.println("Added " + school.addStudent(student.getStudentId(),firstName, lastName) + " student(s)");
-    }
+    }   
 }

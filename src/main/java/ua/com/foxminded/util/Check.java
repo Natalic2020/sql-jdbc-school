@@ -9,8 +9,8 @@ public class Check {
             .ofNullable(parameter)
             .orElseThrow(() -> new IllegalArgumentException("Null as parameter is not allowed "));
     
-        if (parameter.isEmpty()) {
-            throw new IllegalArgumentException("Empty paramete are not allowed ");
+        if (parameter.trim().isEmpty()) {
+            throw new IllegalArgumentException("Empty parameter are not allowed ");
         }
     }  
 }

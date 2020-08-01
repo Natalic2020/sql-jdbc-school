@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 import ua.com.foxminded.dao.SchoolDao;
 import ua.com.foxminded.dto.Group;
-import ua.com.foxminded.dto.Student;
 
 public class SearchGroups implements UserOption {
 
@@ -24,7 +23,7 @@ public class SearchGroups implements UserOption {
             System.out.println("No group found");
         } else {
             groups.stream()
-            .peek(group -> System.out.println(group.toString())).findAny().isPresent();
+            .forEach(group -> System.out.println(group.toString()));
         }
     }
 }
