@@ -19,7 +19,7 @@ import ua.com.foxminded.dao.connection.BasicConnectionPool;
 class Creater {
 
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:~/school105;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
+    static final String DB_URL = "jdbc:h2:~/school50;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
 
     static final String USER = "sa";
     static final String PASS = "";
@@ -36,7 +36,7 @@ class Creater {
                 Class driverClass = Class.forName(JDBC_DRIVER);
                  jdbcConnection = DriverManager.getConnection(
                         DB_URL, USER, PASS);
-                 connection = new DatabaseConnection(jdbcConnection, "school");
+                 connection = new DatabaseConnection(jdbcConnection);
                  
                 IDataSet fullDataSet = connection.createDataSet();
                 FlatXmlDataSet.write(fullDataSet, new FileOutputStream("full.xml"));

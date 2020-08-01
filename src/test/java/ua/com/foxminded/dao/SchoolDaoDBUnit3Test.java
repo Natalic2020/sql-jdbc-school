@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
 
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
 
-class SchoolDaoDBUnitTest extends DBTestCase{
+class SchoolDaoDBUnit3Test extends DBTestCase{
 
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:~/schoo200;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
+    static final String DB_URL = "jdbc:h2:~/schoo57;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false";
 
     static final String USER = "sa";
     static final String PASS = "";
@@ -59,16 +59,16 @@ class SchoolDaoDBUnitTest extends DBTestCase{
             String sql;
             
              sql = "DROP ALL OBJECTS";
+//            stmt.executeUpdate(sql);
+//            sql = "CREATE SCHEMA school";
             stmt.executeUpdate(sql);
-            sql = "CREATE SCHEMA school";
+            sql = "create table  groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL)";
             stmt.executeUpdate(sql);
-            sql = "create table  school.groups (group_id serial PRIMARY KEY, group_name character(50)  NOT NULL)";
+            sql = "create table students (student_id serial PRIMARY KEY, group_id int,    first_name character(50)  NOT NULL, last_name character(50) NOT NULL);";
             stmt.executeUpdate(sql);
-            sql = "create table school.students (student_id serial PRIMARY KEY, group_id int,    first_name character(50)  NOT NULL, last_name character(50) NOT NULL);";
+            sql = "create table courses (course_id serial PRIMARY KEY,    course_name character(50)  NOT NULL,    course_description character(150))";
             stmt.executeUpdate(sql);
-            sql = "create table school.courses (course_id serial PRIMARY KEY,    course_name character(50)  NOT NULL,    course_description character(150))";
-            stmt.executeUpdate(sql);
-            sql = "create table school.students_courses (students_courses_id serial PRIMARY KEY, course_id int  ,  student_id int )";
+            sql = "create table students_courses (students_courses_id serial PRIMARY KEY, course_id int  ,  student_id int )";
             stmt.executeUpdate(sql);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,14 +106,12 @@ class SchoolDaoDBUnitTest extends DBTestCase{
     @Test
     public void addStudent_schoudReturn1Student2_whenInput1Student() throws Exception {
 
-        SchoolDao school = new SchoolDao(basicConnectionPool);
-        int countStudent = school.addStudent(5, "Nata", "Svet");
+//        SchoolDao school = new SchoolDao(basicConnectionPool);
+//        int countStudent = school.addStudent(5, "Nata", "Svet");
 
         IDataSet expectedData = getDataSet();
         
         IDataSet actualData = tester.getConnection().createDataSet();
-        
-       
         
         Assertion.assertEquals(expectedData, actualData);
         

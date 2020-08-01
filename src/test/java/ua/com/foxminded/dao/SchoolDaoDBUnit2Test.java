@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class SchoolDaoDBUnit2Test extends DataSourceBasedDBTestCase{
     
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:~/school4";
+    static final String DB_URL = "jdbc:h2:~/schoo50";
 
     static final String USER = "sa";
     static final String PASS = "";
