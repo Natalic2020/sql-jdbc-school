@@ -11,7 +11,7 @@ import java.util.Optional;
 import ua.com.foxminded.dao.connection.BasicConnectionPool;
 import ua.com.foxminded.dto.Group;
 import ua.com.foxminded.dto.Student;
-import ua.com.foxminded.util.Check;
+import ua.com.foxminded.util.ParameterValidator;
 
 public class SchoolDao {
 
@@ -22,7 +22,7 @@ public class SchoolDao {
     static BasicConnectionPool basicConnectionPool = new BasicConnectionPool(URL, USERNAME, PASSWORD,
             new ArrayList<Connection>());
 
-    Check check = new Check();
+    ParameterValidator parameterValidator = new ParameterValidator();
     
     public SchoolDao(BasicConnectionPool basicConnectionPool) {
         this.basicConnectionPool = basicConnectionPool;
@@ -55,7 +55,7 @@ public class SchoolDao {
     }
     
     public List<Student> searchStudentsInCourse(String courseName) {
-        check.checkParameter(courseName);
+        parameterValidator.isNotNullNotEmpty(courseName);
         
         List<Student> students = new ArrayList<>();
         Connection connection = basicConnectionPool.getConnection();
@@ -79,8 +79,8 @@ public class SchoolDao {
     }
 
     public int addStudent(int studentId, String firstName, String lastName) {
-        check.checkParameter(firstName);
-        check.checkParameter(lastName);
+        parameterValidator.isNotNullNotEmpty(firstName);
+        parameterValidator.isNotNullNotEmpty(lastName);
         
         int countStudents = 0; 
         Connection connection = basicConnectionPool.getConnection();

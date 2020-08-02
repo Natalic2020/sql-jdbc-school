@@ -2,9 +2,9 @@ package ua.com.foxminded.util;
 
 import java.util.Optional;
 
-public class Check {
+public class ParameterValidator {
 
-    public void checkParameter(String parameter) {
+    public void isNotNullNotEmpty(String parameter) {
         Optional
             .ofNullable(parameter)
             .orElseThrow(() -> new IllegalArgumentException("Null as parameter is not allowed "));
