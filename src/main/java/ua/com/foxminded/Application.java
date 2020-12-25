@@ -19,6 +19,11 @@ public class Application {
             new ArrayList<Connection>());
     
     static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         DBInitializer dbInitializer = new DBInitializer(basicConnectionPool9);
         dbInitializer.createDBWithTables();
         dbInitializer.fillAllDB();
